@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users - Schedule Event Logger{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px; color: #1f2937;">Manage Users</h2>
+
+<div style="background: #f9fafb; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+    <h3 style="margin-bottom: 20px; color: #1f2937;">Add New User</h3>
+    
+    <form method="POST" action="{{ url_for('add_user') }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div class="form-group">
+                <label for="username">Username *</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role *</label>
+                <select id="role" name="role" class="form-control" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success" style="margin-top: 10px;">Create User</button>
+    </form>
+</div>
+
+<h3 style="margin-bottom: 15px; color: #1f2937;">Existing Users</h3>
+
+{% for username, details in users.items() %}
+<div class="card">
+    <div class="card-header">
+        <div>
+            <div class="card-title">{{ details.name }} (@{{ username }})</div>
+        </div>
+        <div>
+            <span style="padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; color: white; {% if details.role == 'admin' %}background: #667eea;{% else %}background: #6b7280;{% endif %}">
+                {{ details.role.upper() }}
+            </span>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
